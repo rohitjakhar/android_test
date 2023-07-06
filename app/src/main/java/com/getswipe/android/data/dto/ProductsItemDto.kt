@@ -19,9 +19,9 @@ data class ProductsItemDto(
 fun ProductsItemDto.toProductModel(): ProductModel {
     return ProductModel(
         image = image,
-        price = price ?: 0.0,
+        price = price.toString(),
         productName = productName ?: "",
         productType = productType ?: "",
-        tax = tax ?: 0.0,
+        tax = tax.toString(),
     )
 }

@@ -1,7 +1,9 @@
 package com.getswipe.android.domain.model
 
-data class ProductModel(
-    val image: String?,
+import java.io.File
+
+data class ProductUploadModel(
+    val image: File?,
     val price: String,
     val productName: String,
     val productType: String,
