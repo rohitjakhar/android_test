@@ -3,6 +3,7 @@ package com.getswipe.android.utils
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
+import com.google.android.material.textfield.TextInputLayout
 import java.io.File
 
 fun Fragment.getFile(imageUri: Uri): File? {
@@ -20,4 +21,11 @@ fun Fragment.getFile(imageUri: Uri): File? {
     }
 
     return result
+}
+
+fun TextInputLayout.getText(): String {
+    return editText?.text.toString()
+}
+fun TextInputLayout.isEmptyText(): Boolean {
+    return editText?.text.toString().isEmpty()
 }

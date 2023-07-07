@@ -16,17 +16,20 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.getswipe.android.databinding.FragmentAddProductBinding
 import com.getswipe.android.domain.model.ProductUploadModel
 import com.getswipe.android.utils.Resource
 import com.getswipe.android.utils.getFile
+import com.getswipe.android.utils.getText
+import com.getswipe.android.utils.isEmptyText
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -55,7 +58,10 @@ class AddProductFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK && result.data != null) {
                 imageUri = result.data!!.data
-                binding.ivProductImage.load(result.data!!.data)
+                binding.ivProductImage.load(result.data!!.data) {
+                    transformationDispatcher(Dispatchers.Default)
+                    transformations(RoundedCornersTransformation(12F))
+                }
             }
         }
 
@@ -101,7 +107,7 @@ class AddProductFragment : Fragment() {
         }
     }
 
-    private fun handleClick() {
+    private fun handleClick() = with(binding) {
         binding.ivProductImage.setOnClickListener {
             if (ContextCompat.checkSelfPermission(requireContext(), requiredPermission)
                 == PackageManager.PERMISSION_GRANTED
@@ -115,18 +121,48 @@ class AddProductFragment : Fragment() {
         }
         binding.btnSubmitProduct.setOnClickListener {
             collectAddProductState()
-            val imageFile = imageUri?.let { getFile(it) }
+            if (validateInputs()) {
+                val imageFile = imageUri?.let { getFile(it) }
 
-            viewModel.addProduct(
-                ProductUploadModel(
-                    image = imageFile,
-                    productName = binding.inputProductName.editText?.text.toString(),
-                    productType = binding.inputProductType.editText?.text.toString(),
-                    price = binding.inputProductPrice.editText?.text.toString(),
-                    tax = binding.inputProductTax.editText?.text.toString(),
-                ),
-            )
+                viewModel.addProduct(
+                    ProductUploadModel(
+                        image = imageFile,
+                        productName = inputProductName.getText(),
+                        productType = inputProductType.getText(),
+                        price = inputProductPrice.getText(),
+                        tax = inputProductTax.getText(),
+                    ),
+                )
+            }
         }
+    }
+
+    private fun validateInputs(): Boolean = with(binding) {
+        if (inputProductName.isEmptyText()) {
+            inputProductName.error = "Enter Product Name"
+            return@with false
+        } else {
+            inputProductName.isErrorEnabled = false
+        }
+        if (inputProductType.isEmptyText()) {
+            inputProductType.error = "Enter Product Type"
+            return@with false
+        } else {
+            inputProductName.isErrorEnabled = false
+        }
+        if (inputProductPrice.isEmptyText()) {
+            inputProductPrice.error = "Enter Product Price"
+            return@with false
+        } else {
+            inputProductPrice.isErrorEnabled = false
+        }
+        if (inputProductTax.isEmptyText()) {
+            inputProductTax.error = "Enter Product Tax"
+            return@with false
+        } else {
+            inputProductTax.isErrorEnabled = false
+        }
+        return@with true
     }
 
     override fun onDestroy() {
