@@ -1,5 +1,8 @@
 package com.getswipe.android.domain.model
 
+import androidx.annotation.Keep
+
+@Keep
 data class ProductModel(
     val image: String?,
     val price: String,

@@ -1,8 +1,10 @@
 package com.getswipe.android.data.dto
 
+import androidx.annotation.Keep
 import com.getswipe.android.domain.model.ProductModel
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class ProductsItemDto(
     @SerializedName("image")
     val image: String?,
