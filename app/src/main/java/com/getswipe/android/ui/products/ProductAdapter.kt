@@ -2,6 +2,7 @@ package com.getswipe.android.ui.products
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils.loadAnimation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -25,10 +26,6 @@ class ProductAdapter : ListAdapter<ProductModel, ProductAdapter.ProductVH>(COMPA
         }
     }
 
-    override fun onBindViewHolder(holder: ProductVH, position: Int) {
-        holder.bind(getItem(position))
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductVH {
         return ProductVH(
             ItemProductBinding.inflate(
@@ -37,6 +34,22 @@ class ProductAdapter : ListAdapter<ProductModel, ProductAdapter.ProductVH>(COMPA
                 false,
             ),
         )
+    }
+
+    override fun onBindViewHolder(holder: ProductVH, position: Int) {
+        var lastPosition = 0
+        val animation = loadAnimation(
+            holder.binding.root.context,
+            if (position > lastPosition) R.anim.up_from_bottom_amin else R.anim.down_from_top_anim,
+        )
+        holder.itemView.startAnimation(animation)
+        lastPosition = position
+        holder.bind(getItem(position))
+    }
+
+    override fun onViewDetachedFromWindow(holder: ProductVH) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView.clearAnimation()
     }
 
     inner class ProductVH(val binding: ItemProductBinding) : ViewHolder(binding.root) {
