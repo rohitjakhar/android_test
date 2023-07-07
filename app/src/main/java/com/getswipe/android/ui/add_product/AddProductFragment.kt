@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -24,6 +25,7 @@ import coil.transform.RoundedCornersTransformation
 import com.getswipe.android.R
 import com.getswipe.android.databinding.FragmentAddProductBinding
 import com.getswipe.android.domain.model.ProductUploadModel
+import com.getswipe.android.utils.Constant
 import com.getswipe.android.utils.Resource
 import com.getswipe.android.utils.getFile
 import com.getswipe.android.utils.getText
@@ -83,7 +85,13 @@ class AddProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initUi()
         handleClick()
+    }
+
+    private fun initUi() {
+        val productTypeAdapter = ArrayAdapter<String>(requireContext(), org.koin.android.R.layout.support_simple_spinner_dropdown_item, Constant.productTypeList)
+        binding.dropdownProductType.setAdapter(productTypeAdapter)
     }
 
     private fun collectAddProductState() {

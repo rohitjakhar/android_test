@@ -41,16 +41,18 @@
         android:id="@+id/input_product_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_marginHorizontal="8dp"
         android:layout_marginVertical="8dp"
         android:hint="@string/product_type">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/dropdown_product_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:maxLines="1"
-            android:minLines="1" />
+            android:padding="16dp"
+            android:inputType="none"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
