@@ -29,11 +29,12 @@ import com.getswipe.android.utils.getFile
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddProductFragment : Fragment() {
     private var _binding: FragmentAddProductBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: AddProductVM by viewModels()
+    private val viewModel: AddProductVM by viewModel()
     private var imageUri: Uri? = null
     private val requiredPermission =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

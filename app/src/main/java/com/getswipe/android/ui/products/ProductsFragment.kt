@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -17,11 +16,12 @@ import com.getswipe.android.databinding.FragmentProductsBinding
 import com.getswipe.android.utils.Resource
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProductsFragment : Fragment() {
     private var _binding: FragmentProductsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ProductsVM by viewModels()
+    private val viewModel: ProductsVM by viewModel()
     private val productAdapter by lazy { ProductAdapter() }
     override fun onCreateView(
         inflater: LayoutInflater,

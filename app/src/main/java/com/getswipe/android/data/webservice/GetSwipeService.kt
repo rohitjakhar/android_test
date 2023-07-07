@@ -29,21 +29,4 @@ interface GetSwipeService {
         @Part("tax") productTax: RequestBody,
         @Part productImage: MultipartBody.Part?,
     ): Response<AddProductRespDto>
-
-    companion object {
-        fun getGetSwipeService(): GetSwipeService {
-            val loggingInterceptor = HttpLoggingInterceptor()
-                .setLevel(HttpLoggingInterceptor.Level.BODY)
-            val client = OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build()
-
-            return Retrofit.Builder()
-                .baseUrl(Constant.BASE_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create(Gson()))
-                .build()
-                .create(GetSwipeService::class.java)
-        }
-    }
 }

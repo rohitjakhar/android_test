@@ -13,10 +13,10 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
-class GetSwipeRepoImpl : GetSwipeRepo {
+class GetSwipeRepoImpl(private val getSwipeService: GetSwipeService) : GetSwipeRepo {
     override suspend fun getProducts(): Resource<List<ProductModel>> = withContext(Dispatchers.IO) {
         try {
-            val resp = GetSwipeService.getGetSwipeService().getProductList()
+            val resp = getSwipeService.getProductList()
             return@withContext if (resp.isSuccessful && !resp.body().isNullOrEmpty()) {
                 Resource.SUCCESS(data = resp.body()!!.map { it.toProductModel() })
             } else {
@@ -39,7 +39,7 @@ class GetSwipeRepoImpl : GetSwipeRepo {
                         it.asRequestBody("image/*".toMediaType()),
                     )
                 }
-                val resp = GetSwipeService.getGetSwipeService().addProduct(
+                val resp = getSwipeService.addProduct(
                     productType = productModel.productType.toRequestBody("text/plain".toMediaType()),
                     productName = productModel.productName.toRequestBody("text/plain".toMediaType()),
                     productPrice = productModel.price.toRequestBody("text/plain".toMediaType()),

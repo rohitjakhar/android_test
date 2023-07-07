@@ -2,8 +2,8 @@ package com.getswipe.android.ui.products
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.getswipe.android.data.repo.GetSwipeRepoImpl
 import com.getswipe.android.domain.model.ProductModel
+import com.getswipe.android.domain.repo.GetSwipeRepo
 import com.getswipe.android.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -11,8 +11,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ProductsVM : ViewModel() {
-    private val getSwipeRepo = GetSwipeRepoImpl()
+class ProductsVM(
+    private val getSwipeRepo: GetSwipeRepo
+) : ViewModel() {
     init {
         getProducts()
     }
