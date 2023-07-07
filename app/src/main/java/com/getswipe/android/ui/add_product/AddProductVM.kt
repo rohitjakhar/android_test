@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class AddProductVM(
     private val getSwipeRepo: GetSwipeRepo,
-    private val networkHelper: NetworkHelper
+    private val networkHelper: NetworkHelper,
 ) : ViewModel() {
 
     private var _addProductResource = MutableStateFlow<Resource<String>>(Resource.LOADING())
@@ -21,9 +21,9 @@ class AddProductVM(
 
     fun addProduct(productModel: ProductUploadModel) {
         viewModelScope.launch {
-            if (networkHelper.isNetworkConnected()){
+            if (networkHelper.isNetworkConnected()) {
                 _addProductResource.emit(Resource.LOADING())
-                delay(200)
+                delay(800)
                 _addProductResource.emit(getSwipeRepo.addProduct(productModel))
             } else {
                 _addProductResource.emit(Resource.FAILURE("Network not found!"))

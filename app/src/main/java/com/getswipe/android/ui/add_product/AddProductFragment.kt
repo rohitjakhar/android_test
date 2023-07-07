@@ -11,7 +11,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -22,12 +21,15 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import com.getswipe.android.R
 import com.getswipe.android.databinding.FragmentAddProductBinding
 import com.getswipe.android.domain.model.ProductUploadModel
 import com.getswipe.android.utils.Resource
 import com.getswipe.android.utils.getFile
 import com.getswipe.android.utils.getText
 import com.getswipe.android.utils.isEmptyText
+import com.getswipe.android.utils.messageDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -39,6 +41,11 @@ class AddProductFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: AddProductVM by viewModel()
     private var imageUri: Uri? = null
+    private val loadingView by lazy {
+        MaterialAlertDialogBuilder(requireContext())
+            .setView(R.layout.item_progress_bar)
+            .create()
+    }
     private val requiredPermission =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             Manifest.permission.READ_MEDIA_IMAGES
@@ -82,24 +89,25 @@ class AddProductFragment : Fragment() {
     private fun collectAddProductState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModel.addProductResource.collectLatest {
-                    when (it) {
+                viewModel.addProductResource.collectLatest { resource ->
+                    when (resource) {
                         is Resource.FAILURE -> {
-                            Toast.makeText(
-                                requireContext(),
-                                "Error ${it.message}",
-                                Toast.LENGTH_SHORT,
-                            ).show()
+                            loadingView.dismiss()
+                            requireContext().messageDialog("Error ${resource.message}") { dialog ->
+                                dialog.dismiss()
+                            }
                         }
 
                         is Resource.LOADING -> {
-                            Toast.makeText(requireContext(), "Adding...", Toast.LENGTH_SHORT).show()
+                            loadingView.show()
                         }
 
                         is Resource.SUCCESS -> {
-                            Toast.makeText(requireContext(), "Added ${it.data}", Toast.LENGTH_SHORT)
-                                .show()
-                            findNavController().navigateUp()
+                            loadingView.dismiss()
+                            requireContext().messageDialog("Added ${resource.data}") { dialog ->
+                                dialog.dismiss()
+                                findNavController().navigateUp()
+                            }
                         }
                     }
                 }
