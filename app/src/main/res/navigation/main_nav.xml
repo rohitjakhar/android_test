@@ -8,11 +8,11 @@
     <fragment
         android:id="@+id/productsFragment"
         android:name="com.getswipe.android.ui.products.ProductsFragment"
-        android:label="fragment_products"
+        android:label="Products"
         tools:layout="@layout/fragment_products" />
     <fragment
         android:id="@+id/addProductFragment"
         android:name="com.getswipe.android.ui.add_product.AddProductFragment"
-        android:label="fragment_add_product"
+        android:label="Add Product"
         tools:layout="@layout/fragment_add_product" />
 </navigation>
