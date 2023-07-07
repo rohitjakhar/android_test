@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.getswipe.android.domain.model.ProductModel
 import com.getswipe.android.domain.repo.GetSwipeRepo
+import com.getswipe.android.utils.NetworkHelper
 import com.getswipe.android.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ProductsVM(
-    private val getSwipeRepo: GetSwipeRepo
+    private val getSwipeRepo: GetSwipeRepo,
+    private val networkHelper: NetworkHelper,
 ) : ViewModel() {
     init {
         getProducts()
@@ -23,9 +25,13 @@ class ProductsVM(
 
     private fun getProducts() {
         viewModelScope.launch(Dispatchers.IO) {
-            _productListResource.emit(Resource.LOADING())
-            delay(200)
-            _productListResource.emit(getSwipeRepo.getProducts())
+            if (networkHelper.isNetworkConnected()) {
+                _productListResource.emit(Resource.LOADING())
+                delay(200)
+                _productListResource.emit(getSwipeRepo.getProducts())
+            } else {
+                _productListResource.emit(Resource.FAILURE(message = "Network not found!"))
+            }
         }
     }
 }

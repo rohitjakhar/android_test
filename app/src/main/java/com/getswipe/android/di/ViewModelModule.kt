@@ -7,12 +7,12 @@ import org.koin.dsl.module
 
 val productsVMModule = module {
     viewModel {
-        ProductsVM(get())
+        ProductsVM(get(), get())
     }
 }
 
 val addProductVMModule = module {
     viewModel {
-        AddProductVM(get())
+        AddProductVM(get(), get())
     }
 }
