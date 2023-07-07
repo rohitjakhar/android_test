@@ -1,41 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:padding="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
-    android:elevation="12dp">
+    app:cardElevation="12dp">
 
-    <ImageView
-        android:id="@+id/iv_product"
-        android:layout_width="120dp"
-        android:layout_height="120dp" />
-
-    <TextView
-        android:id="@+id/tv_product_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Product Name"
-        />
+        android:orientation="vertical"
+        android:padding="12dp"
+        >
 
-    <TextView
-        android:id="@+id/tv_product_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Product Type" />
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:strokeColor="@color/black"
+            android:layout_marginVertical="4dp"
+            >
 
-    <TextView
-        android:id="@+id/tv_product_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Product Price" />
+        <ImageView
+            android:id="@+id/iv_product"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/add_product_photo"
+            tools:src="@drawable/product_image"
+            android:layout_gravity="center"
+            />
+        </com.google.android.material.card.MaterialCardView>
 
-    <TextView
-        android:id="@+id/tv_product_tax"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Product Tax" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:weightSum="1"
+            android:layout_marginVertical="2dp"
+            >
+            <TextView
+                android:layout_weight="0.5"
+                android:id="@+id/tv_product_name_label"
+                android:layout_width="0dp"
+                android:gravity="end"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.Material3.LabelLarge"
+                android:text="@string/product_name"
+                />
 
-</LinearLayout>
+            <TextView
+                android:layout_weight="0.5"
+                android:id="@+id/tv_product_name"
+                android:layout_width="0dp"
+                android:gravity="start"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                tools:text="Product Name" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:weightSum="1"
+            android:layout_marginVertical="2dp"
+            >
+            <TextView
+                android:layout_weight="0.5"
+                android:id="@+id/tv_product_type_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                style="@style/TextAppearance.Material3.LabelLarge"
+                android:text="@string/product_type"
+                />
+
+            <TextView
+                android:layout_weight="0.5"
+                android:id="@+id/tv_product_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:layout_marginStart="12dp"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                tools:text="Product Type" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:weightSum="1"
+            android:layout_marginVertical="2dp"
+            >
+            <TextView
+                android:layout_weight="0.5"
+                android:id="@+id/tv_product_price_label"
+                android:layout_width="0dp"
+                android:gravity="end"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.Material3.LabelLarge"
+                android:text="@string/product_price"
+                />
+
+            <TextView
+                android:layout_weight="0.5"
+                android:id="@+id/tv_product_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:gravity="start"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                tools:text="Product Type" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:weightSum="1"
+            android:layout_marginVertical="2dp"
+            >
+            <TextView
+                android:layout_weight="0.5"
+                android:id="@+id/tv_product_tax_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                style="@style/TextAppearance.Material3.LabelLarge"
+                android:text="@string/product_tax"
+                />
+
+            <TextView
+                android:layout_weight="0.5"
+                android:id="@+id/tv_product_tax"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:gravity="start"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                tools:text="Product Tax" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
