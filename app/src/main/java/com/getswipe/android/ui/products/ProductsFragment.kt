@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.getswipe.android.R
 import com.getswipe.android.databinding.FragmentProductsBinding
@@ -48,7 +49,16 @@ class ProductsFragment : Fragment() {
 
     private fun handleClicks() {
         binding.floatingAddProduct.setOnClickListener {
-            findNavController().navigate(R.id.addProductFragment)
+            val navOption = navOptions {
+                anim {
+                    enter = R.anim.up_from_bottom_amin
+                }
+            }
+            findNavController().navigate(
+                R.id.addProductFragment,
+                navOptions = navOption,
+                args = null,
+            )
         }
     }
 
