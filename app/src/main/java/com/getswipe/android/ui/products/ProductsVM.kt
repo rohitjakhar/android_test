@@ -1,6 +1,9 @@
 package com.getswipe.android.ui.products
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.getswipe.android.domain.model.ProductModel
 import com.getswipe.android.domain.repo.GetSwipeRepo
@@ -23,6 +26,13 @@ class ProductsVM(
         MutableStateFlow<Resource<List<ProductModel>>>(Resource.LOADING())
     val productListResource get() = _productListResource.asStateFlow()
 
+    val searchText = MutableLiveData("")
+
+    val searchData = searchText.switchMap { searchValue ->
+        liveData {
+            emit(productListResource.value.data?.filter { it.search(searchValue) })
+        }
+    }
     private fun getProducts() {
         viewModelScope.launch(Dispatchers.IO) {
             if (networkHelper.isNetworkConnected()) {

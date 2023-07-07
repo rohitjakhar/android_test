@@ -6,4 +6,17 @@ data class ProductModel(
     val productName: String,
     val productType: String,
     val tax: String,
-)
+) {
+    fun search(key: String): Boolean {
+        if (productName.contains(key, true)) {
+            return true
+        }
+        if (productType.contains(key, true)) {
+            return true
+        }
+        if (price.contains(key, true)) {
+            return true
+        }
+        return false
+    }
+}

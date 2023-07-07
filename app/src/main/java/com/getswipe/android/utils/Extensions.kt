@@ -33,6 +33,9 @@ fun TextInputLayout.getText(): String {
 fun TextInputLayout.isEmptyText(): Boolean {
     return editText?.text.toString().isEmpty()
 }
+fun TextInputLayout.removeText() {
+    editText?.text?.clear()
+}
 
 fun Context.messageDialog(mesage: String, dialog: (DialogInterface) -> Unit) {
     MaterialAlertDialogBuilder(this)

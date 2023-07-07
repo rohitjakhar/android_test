@@ -9,4 +9,5 @@
     <string name="product_tax">Product Tax</string>
     <string name="submit">Submit</string>
     <string name="add_product_photo">Add Product Photo</string>
+    <string name="search_product">Search Product</string>
 </resources>

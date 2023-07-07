@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.getswipe.android.R
 import com.getswipe.android.databinding.FragmentProductsBinding
 import com.getswipe.android.utils.Resource
+import com.getswipe.android.utils.removeText
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,13 +43,31 @@ class ProductsFragment : Fragment() {
     }
 
     private fun initUi() {
+        binding.inputSearch.editText?.doOnTextChanged { text, start, before, count ->
+            if (!text.isNullOrEmpty()) {
+                collectSearchResult()
+                binding.ivClear.isVisible = true
+                viewModel.searchText.value = text.toString()
+            }
+        }
         binding.rvProducts.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = productAdapter
         }
     }
 
+    private fun collectSearchResult() {
+        viewModel.searchData.observe(viewLifecycleOwner) {
+            productAdapter.submitList(it)
+        }
+    }
+
     private fun handleClicks() {
+        binding.ivClear.setOnClickListener {
+            viewModel.searchText.value = ""
+            binding.inputSearch.removeText()
+            collectProducts()
+        }
         binding.floatingAddProduct.setOnClickListener {
             val navOption = navOptions {
                 anim {
